@@ -18,7 +18,7 @@ article = Table(
     Column('text', String(2048), nullable=False)
 )
 
-if __name__ == '__main___':
-    engine = create_engine(DSN)
-    meta.create_all(bind=engine)
+
+engine = create_engine(DSN)
+meta.create_all(bind=engine)
 
