@@ -1,0 +1,26 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+{% if error %}
+    {{ error }}
+{% endif %}
+
+<form action="" method="post" accept-charset="utf-8"
+      enctype="application/x-www-form-urlencoded">
+
+
+    <p>Article</p>
+    <textarea name="article" rows="7" cols="40"></textarea>
+    <p><input type="submit" /></p>
+</form>
+
+{% if articles %}
+    {% for article in articles %}
+    <ul>
+        <li><a href="{{ url('article', article_id=article.id) }}">{{ article.text|truncate(30) }}</a></li>
+    </ul>
+    {% endfor %}
+{% endif %}
+
+{% endblock %}
