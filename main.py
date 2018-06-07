@@ -40,7 +40,7 @@ async def index(request):
 
 
 
-@routes.view('/{article_id}', name='article')
+@routes.view('/{article_id}/', name='article')
 @aiohttp_jinja2.template('article.html')
 async def result(request):
     article_id = request.match_info['article_id']
