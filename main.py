@@ -4,7 +4,6 @@ from init_db import init_pg, close_pg
 import aiohttp_jinja2
 import jinja2
 from psycopg2 import DataError
-from collections import Counter
 
 
 app = web.Application()
@@ -36,7 +35,7 @@ async def index(request):
                 except DataError as e:                                          # VALUES (text)
                     context['error'] = e    # if text length > 2048
                 else:
-                    return web.HTTPFound(location=app.router['index'].url_for())    #redirect if successfully
+                    return web.HTTPFound(location=app.router['index'].url_for())    # redirect if successfully
         return context
 
 
@@ -46,7 +45,7 @@ async def index(request):
 async def result(request):
     article_id = request.match_info['article_id']
     async with request.app['db'].acquire() as conn:
-        cursor = await conn.execute(article.select().where(article.c.id == article_id)) #Trying get article by ID
+        cursor = await conn.execute(article.select().where(article.c.id == article_id)) # Trying get article by ID
         data = await cursor.first()
 
         if not data:
@@ -56,11 +55,6 @@ async def result(request):
         to_list = data.text.strip().replace('.', '').replace(',', '').replace('!', '').lower().split(' ')
         #sorting and collect to the string
         data_new = ' '.join(sorted(to_list, key=lambda x: (to_list.count(x), x)))
-
-        data_new1 = Counter(to_list)
-
-        data_new = list(data_new1.elements())
-
 
         return {'article': data,
                 'article_new': data_new}
